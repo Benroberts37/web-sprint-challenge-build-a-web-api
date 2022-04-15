@@ -13,18 +13,17 @@ function validateProjectId(req, res, next){
  })
 }
 
-function validateProject(req, res, next){
-    const {name, description, completed} = req.body
-    if(!name || !name.trim()) {
-        res.status(400).json({message: "The name field is required to proceed"})
-
-    } else if (!description || !description.trim()) {
-        res.status(400).json({message: "You are missing the description field"})
-    } else {
-        req.name = name.trim()
-        req.description = description.trim()
-        req.completed = completed
-        next()
+async function validateProject(req, res, next){
+    const { name, description, completed } = req.body;
+    try {
+        if(name && description && typeof completed === 'boolean'){
+            req.pass = {name, description, completed}
+            next()
+        } else {
+            next({ status:400, message: 'name and description required' })
+        }
+    } catch(err) {
+        next(err)
     }
 }
 

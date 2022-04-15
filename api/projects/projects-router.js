@@ -11,5 +11,25 @@ router.get("/", (req, res) => {
         .then(projects => res.json(projects))
 })
 
+router.get("/:id", (req, res) => {
+    res.json(req.project)
+})
+
+router.post("/", (req, res) => {
+
+})
+
+router.put("/", (req, res) => {
+
+})
+
+router.delete("/", (req, res) => {
+
+})
+
+router.get("/", (req, res) => {
+
+})
+
 
 module.exports = router

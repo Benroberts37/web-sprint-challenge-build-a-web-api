@@ -2,16 +2,18 @@
 const Actions = require('./actions-model')
 const Projects = require('../projects/projects-model')
 
-function validateActionId(req, res, next) {
-    Actions.get(req.params.id)
-        .then(action => {
-            if (action) {
-                req.action=action
-                next()
-            } else {
-                res.status(404).json({message: "Action not found" })
-            }
-        })
+async function validateActionId(req, res, next) {
+    try {
+        const action = await Actions.get(req.params.id)
+        if(!action) {
+            res.status(404).json({message: 'No actions of this ID were found'})
+        } else {
+            req.action = action
+            next()
+        }
+    } catch(err){
+        res.status(500).json({message: 'No action was found. An error occured.'})
+    }
 }
 
 function validateActionInput(req, res, next) {

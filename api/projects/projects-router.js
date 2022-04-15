@@ -28,10 +28,13 @@ router.put("/", validateProjectId, validateProjectUpdate, (req, res) => {
     .then (newProject => res.json(newProject))
 })
 
-router.delete("/", validateProjectId, (req, res) => {
-    const id = req.params.id
-    Projects.remove(id)
-    .then(() => res.end())
+router.delete("/", validateProjectId, async (req, res, next) => {
+    try {
+        await Projects.remove(req.params.id)
+        res.json(res.Projects)
+    } catch (err) {
+        next(err)
+    }
 })
 
 router.get("/", (req, res) => {

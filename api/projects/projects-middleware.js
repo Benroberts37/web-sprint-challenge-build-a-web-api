@@ -13,8 +13,7 @@ function validateProjectId(req, res, next){
  })
 }
 
-
-function validateProjectUpdate(req, res, next){
+function validateProject(req, res, next){
     const {name, description, completed} = req.body
     if(!name || !name.trim()) {
         res.status(400).json({message: "The name field is required to proceed"})
@@ -29,4 +28,4 @@ function validateProjectUpdate(req, res, next){
     }
 }
 
-module.exports = { validateProjectId, validateProjectUpdate } 
+module.exports = { validateProjectId, validateProject } 

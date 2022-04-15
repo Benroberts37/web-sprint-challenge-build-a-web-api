@@ -14,7 +14,10 @@ Pull your server into this file and start it!
 */
 
 const server = require('./api/server.js');
+require('dotenv').config()
+
+const port = process.env.PORT || 9000
 
 server.listen(9000, () => {
-  console.log('server is working on port 9000')
+  console.log(`server is running on http://localhost:${port}`)
 })

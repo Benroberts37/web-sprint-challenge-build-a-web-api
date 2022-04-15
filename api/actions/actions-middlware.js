@@ -1,5 +1,6 @@
 // add middlewares here related to actions
 const Actions = require('./actions-model')
+const Projects = require('../projects/projects-model')
 
 function validateActionId(req, res, next) {
     Actions.get(req.params.id)
@@ -31,4 +32,16 @@ function validateActionUpdate(req, res, next) {
     }
 }
 
-module.exports = { validateActionId, validateActionInput, validateActionUpdate} 
+function validateProjectId(req, res, next) {
+    const { project_id } = req.body
+    Projects.get(project_id)
+    .then(project => {
+        if (!project) {
+            res.status(400).json({message: "The project ID you included could not be found in the database"})
+        } else {
+            next()
+        }
+    })
+}
+
+module.exports = { validateActionId, validateActionInput, validateActionUpdate, validateProjectId} 

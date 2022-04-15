@@ -13,22 +13,20 @@ function validateProjectId(req, res, next){
  })
 }
 
-function validateProjectInput(req, res, next){
-    const { name, description } = req.body
-    if (!name || !description) {
-        res.status(400).json({message: "Name and description field are both required, please include!"})
-    } else {
-        next()
-    }
-}
 
 function validateProjectUpdate(req, res, next){
     const {name, description, completed} = req.body
-    if (!name || !description || !completed) {
-        res.status(400).json({message: "Name, description, and completed status are all required"})
+    if(!name || !name.trim()) {
+        res.status(400).json({message: "The name field is required to proceed"})
+
+    } else if (!description || !description.trim()) {
+        res.status(400).json({message: "You are missing the description field"})
     } else {
+        req.name = name.trim()
+        req.description = description.trim()
+        req.completed = completed
         next()
     }
 }
 
-module.exports = { validateProjectId, validateProjectInput, validateProjectUpdate } 
+module.exports = { validateProjectId, validateProjectUpdate } 
